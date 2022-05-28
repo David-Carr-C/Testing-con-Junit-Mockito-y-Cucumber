@@ -5,12 +5,18 @@ public class Game {
     private final int ROCK = 0;
     private final int PAPER = 1;
     private final int SCISSORS = 2;
-    private Scanner scanner = new Scanner(System.in);
-    private Random random = new Random();
+    /* final <- Mockito es sensible a las palabras final y las modificaciones del mock*/
+    private Scanner scanner;
+    private /*final*/ Random random;
+
+    public Game() {
+        scanner = new Scanner(System.in);
+        random = new Random();
+    }
 
     public void play() {
         //start game
-        String choice = gameMenu().toLowerCase();
+        String choice = gameMenu();
 
         //initialize variables
         int tieNum = 0, winNum = 0, lossNum = 0, choiceNum = 0;
@@ -47,13 +53,13 @@ public class Game {
                 lossNum++;
             }
 
-            choice = playAgain(winNum, lossNum, tieNum).toLowerCase();
+            choice = playAgain(winNum, lossNum, tieNum);
         }
     }
 
     private int getChoiceNum(int choiceNum) {
         while(choiceNum == 0) { //continue while user input is still not valid
-            String choice = invalidAnswer().toLowerCase();
+            String choice = invalidAnswer();
             switch (choice) {
                 case "rock":
                     choiceNum = ROCK;
@@ -74,8 +80,7 @@ public class Game {
     private String gameMenu() {
         System.out.println("Let's play Rock, Paper, Scissors!");
         System.out.println("Say \"Rock\", \"Paper\", or \"Scissors\" to indicate your choice. Otherwise say \"Quit\" to quit.");
-        String result = scanner.nextLine();
-        return result; //prompt response //change to lowercase for consistency
+        return scanner.nextLine().toLowerCase();//prompt response //change to lowercase for consistency
     }
 
     private int getComputerChoice() {
@@ -88,14 +93,14 @@ public class Game {
 
     private String invalidAnswer() {
         System.out.println("Sorry, it looks like you didn't enter a correct input. Try again.");
-        return scanner.nextLine();
+        return scanner.nextLine().toLowerCase();
     }
 
     private String playAgain(int winNum, int lossNum, int tienum) {
         System.out.println("wins:" + winNum + "\nloses:" + lossNum + "\nties:" + tienum); //print out number of wins, ties, and loses
         System.out.println("Let's play again! \n \n"); //start game again
         System.out.println("Say \"Rock\", \"Paper\", or \"Scissors\" to indicate your choice. Otherwise say \"Quit\" to quit.");
-        return scanner.nextLine(); //prompt for new user input
+        return scanner.nextLine().toLowerCase(); //prompt for new user input
     }
 
     private boolean isTie(int choiceNum, int compNum) {
