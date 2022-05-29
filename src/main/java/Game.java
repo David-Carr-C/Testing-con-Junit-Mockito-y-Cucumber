@@ -7,45 +7,33 @@ public class Game {
     private final int SCISSORS = 2;
     /* final <- Mockito es sensible a las palabras final y las modificaciones del mock*/
     private Scanner scanner;
-    private /*final*/ Random random;
+    private Random random;
 
+    /**
+     * Inicializa scanner y random para el juego
+     * */
     public Game() {
         scanner = new Scanner(System.in);
         random = new Random();
     }
 
+    /**
+     * Comienza y se desarrolla el juego, cada que se ejecute play() se inicializa un nuevo juego
+     * */
     public void play() {
-        //start game
         String choice = gameMenu();
 
-        //initialize variables
-        int tieNum = 0, winNum = 0, lossNum = 0, choiceNum = 0;
-        while (!choice.equals("quit")) { //do the following if the user does not put in "quit"
-            switch (choice) {
-                case "rock": //assign numbers to string
-                    choiceNum = ROCK;
-                    break;
-                case "paper":
-                    choiceNum = PAPER;
-                    break;
-                case "scissors":
-                    choiceNum = SCISSORS;
-                    break;
-                default:
-                    choiceNum = getChoiceNum(choiceNum); //not valid responses
-            }
+        int tieNum = 0, winNum = 0, lossNum = 0, choiceNum; //Se inicializan las variables
+        while (!choice.equals("quit")) {
+            choiceNum = 4;
+            choiceNum = getUserChoiceNum(choice, choiceNum);
 
             int compNum = getComputerChoice();
-            if(isTie(choiceNum, compNum)) { //Cases
+            if (isTie(choiceNum, compNum)) { //Cases
                 System.out.println("It's a tie");
                 tieNum++;
-            } else if (isRockBeatsScissors(choiceNum, compNum)) {
-                System.out.println("you win!");
-                winNum++;
-            } else if (isScissorsBeatsPaper(choiceNum, compNum)) {
-                System.out.println("you win!");
-                winNum++;
-            } else if (isPaperBeatsRock(choiceNum, compNum)) {
+            } else if ( isUserRockBeatsComputerScissors(choiceNum, compNum) || isUserScissorsBeatsComputerPaper(choiceNum, compNum)
+                    || isUserPaperBeatsComputerRock(choiceNum, compNum) ) {
                 System.out.println("you win!");
                 winNum++;
             } else { //otherwise computer wins
@@ -57,8 +45,25 @@ public class Game {
         }
     }
 
+    private int getUserChoiceNum(String choice, int choiceNum) {
+        switch (choice) {
+            case "rock": //assign numbers to string
+                choiceNum = ROCK;
+                break;
+            case "paper":
+                choiceNum = PAPER;
+                break;
+            case "scissors":
+                choiceNum = SCISSORS;
+                break;
+            default:
+                choiceNum = getChoiceNum(choiceNum); //not valid responses
+        }
+        return choiceNum;
+    }
+
     private int getChoiceNum(int choiceNum) {
-        while(choiceNum == 0) { //continue while user input is still not valid
+        while(choiceNum == 4) { //continue while user input is still not valid
             String choice = invalidAnswer();
             switch (choice) {
                 case "rock":
@@ -107,15 +112,15 @@ public class Game {
         return choiceNum == compNum;
     }
 
-    private boolean isRockBeatsScissors(int choiceNum, int compNum) {
+    private boolean isUserRockBeatsComputerScissors(int choiceNum, int compNum) {
         return choiceNum == ROCK && compNum == SCISSORS;
     }
 
-    private boolean isScissorsBeatsPaper(int choiceNum, int compNum) {
+    private boolean isUserScissorsBeatsComputerPaper(int choiceNum, int compNum) {
         return choiceNum == SCISSORS && compNum == PAPER;
     }
 
-    private boolean isPaperBeatsRock(int choiceNum, int compNum) {
+    private boolean isUserPaperBeatsComputerRock(int choiceNum, int compNum) {
         return choiceNum == PAPER && compNum == ROCK;
     }
 }
