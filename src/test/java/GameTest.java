@@ -21,7 +21,7 @@ public class GameTest {
 
     @InjectMocks
     private Game game; //Clase principal con la cual realizar las pruebas
-
+    /* final <- Mockito es sensible a las palabras final y las modificaciones del mock*/
     @Mock
     Scanner scanner; //Mock a modificar cuando algo ocurra
     @Mock

@@ -2,98 +2,78 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Game {
-    private final int ROCK = 0;
+    private final int ROCK = 0; //Constantes de eleccion
     private final int PAPER = 1;
     private final int SCISSORS = 2;
-    /* final <- Mockito es sensible a las palabras final y las modificaciones del mock*/
-    private Scanner scanner;
+    private Scanner scanner; //Objetos para el input del juego
     private Random random;
 
-    /**
-     * Inicializa scanner y random para el juego
-     * */
     public Game() {
         scanner = new Scanner(System.in);
         random = new Random();
     }
 
-    /**
-     * Comienza y se desarrolla el juego, cada que se ejecute play() se inicializa un nuevo juego
-     * */
-    public void play() {
+    public void play() { //Comienza y desarrolla el juego, cada que se ejecute play() se inicializa un nuevo juego
         String choice = gameMenu();
 
-        int tieNum = 0, winNum = 0, lossNum = 0, choiceNum; //Se inicializan las variables
-        while (!choice.equals("quit")) {
-            choiceNum = 4;
-            choiceNum = getUserChoiceNum(choice, choiceNum);
+        ScoreBoard scoreBoard = new ScoreBoard();
 
+        while (!choice.equals("quit")) {
+
+            int choiceNum = getUserChoice(choice);
             int compNum = getComputerChoice();
+
             if (isTie(choiceNum, compNum)) { //Cases
                 System.out.println("It's a tie");
-                tieNum++;
-            } else if ( isUserRockBeatsComputerScissors(choiceNum, compNum) || isUserScissorsBeatsComputerPaper(choiceNum, compNum)
-                    || isUserPaperBeatsComputerRock(choiceNum, compNum) ) {
+                scoreBoard.incrementTies();
+
+            } else if (isUserRockBeatsComputerScissors(choiceNum, compNum)
+                    || isUserScissorsBeatsComputerPaper(choiceNum, compNum)
+                    || isUserPaperBeatsComputerRock(choiceNum, compNum)) {
                 System.out.println("you win!");
-                winNum++;
+                scoreBoard.incrementWins();
+
             } else { //otherwise computer wins
                 System.out.println("you lose.");
-                lossNum++;
+                scoreBoard.incrementLoses();
             }
 
-            choice = playAgain(winNum, lossNum, tieNum);
+            choice = playAgain(scoreBoard);
         }
     }
 
-    private int getUserChoiceNum(String choice, int choiceNum) {
-        switch (choice) {
-            case "rock": //assign numbers to string
-                choiceNum = ROCK;
-                break;
-            case "paper":
-                choiceNum = PAPER;
-                break;
-            case "scissors":
-                choiceNum = SCISSORS;
-                break;
-            default:
-                choiceNum = getChoiceNum(choiceNum); //not valid responses
+    private int getUserChoice(String choice) {
+        try {
+            return GameChoice.valueOf(choice.toUpperCase()).ordinal();
+        }catch (IllegalArgumentException e) {
+            return getAValidChoiceNum();
         }
-        return choiceNum;
     }
 
-    private int getChoiceNum(int choiceNum) {
-        while(choiceNum == 4) { //continue while user input is still not valid
+    private int getAValidChoiceNum() {
+        while (true) { //continue while user input is still not valid
             String choice = invalidAnswer();
-            switch (choice) {
-                case "rock":
-                    choiceNum = ROCK;
-                    break;
-                case "paper":
-                    choiceNum = PAPER;
-                    break;
-                case "scissors":
-                    choiceNum = SCISSORS;
-                    break;
-                case "quit":
-                    System.exit(0); //quit program
+            try {
+                return GameChoice.valueOf(choice.toUpperCase()).ordinal();
+            } catch (IllegalArgumentException e) {
+                if (choice.equals("quit"))
+                    System.exit(0);
             }
         }
-        return choiceNum;
     }
 
     private String gameMenu() {
         System.out.println("Let's play Rock, Paper, Scissors!");
         System.out.println("Say \"Rock\", \"Paper\", or \"Scissors\" to indicate your choice. Otherwise say \"Quit\" to quit.");
-        return scanner.nextLine().toLowerCase();//prompt response //change to lowercase for consistency
+        return scanner.nextLine().toLowerCase(); //prompt response //change to lowercase for consistency
     }
 
     private int getComputerChoice() {
-        int compNum = (random.nextInt(3)); //computer generate random num
-        if (compNum == ROCK) System.out.println("Computer chose rock"); //print computer choice
-        if (compNum == PAPER) System.out.println("Computer chose paper");
-        if (compNum == SCISSORS) System.out.println("Computer chose scissors");
-        return compNum;
+        int randomValue = (random.nextInt(3)); //computer generate random num
+        if (randomValue == ROCK) System.out.println("Computer chose rock");
+        if (randomValue == PAPER) System.out.println("Computer chose paper");
+        if (randomValue == SCISSORS) System.out.println("Computer chose scissors");
+        return randomValue;
     }
 
     private String invalidAnswer() {
@@ -101,14 +81,14 @@ public class Game {
         return scanner.nextLine().toLowerCase();
     }
 
-    private String playAgain(int winNum, int lossNum, int tienum) {
-        System.out.println("wins:" + winNum + "\nloses:" + lossNum + "\nties:" + tienum); //print out number of wins, ties, and loses
-        System.out.println("Let's play again! \n \n"); //start game again
+    private String playAgain(ScoreBoard scoreBoard) {
+        System.out.println("wins:" + scoreBoard.getWins() + "\nloses:" + scoreBoard.getLoses() + "\nties:" + scoreBoard.getTies()); //print out number of wins, ties, and loses
+        System.out.println("Let's play again! \n \n");
         System.out.println("Say \"Rock\", \"Paper\", or \"Scissors\" to indicate your choice. Otherwise say \"Quit\" to quit.");
-        return scanner.nextLine().toLowerCase(); //prompt for new user input
+        return scanner.nextLine().toLowerCase();
     }
 
-    private boolean isTie(int choiceNum, int compNum) {
+    private boolean isTie(int choiceNum, int compNum) { //Comparisons
         return choiceNum == compNum;
     }
 
