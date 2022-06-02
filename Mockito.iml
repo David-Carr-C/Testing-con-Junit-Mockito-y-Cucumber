@@ -33,10 +33,22 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.jupiter:junit-jupiter-api:5.8.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.opentest4j:opentest4j:1.2.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.platform:junit-platform-commons:1.8.2" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.apiguardian:apiguardian-api:1.1.2" level="project" />
+    <orderEntry type="library" name="Maven: org.apiguardian:apiguardian-api:1.1.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.mockito:mockito-core:2.28.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: net.bytebuddy:byte-buddy:1.9.10" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: net.bytebuddy:byte-buddy-agent:1.9.10" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.objenesis:objenesis:2.6" level="project" />
+    <orderEntry type="library" name="Maven: io.cucumber:cucumber-java:7.0.0" level="project" />
+    <orderEntry type="library" name="Maven: io.cucumber:cucumber-core:7.0.0" level="project" />
+    <orderEntry type="library" name="Maven: io.cucumber:cucumber-gherkin:7.0.0" level="project" />
+    <orderEntry type="library" name="Maven: io.cucumber:cucumber-gherkin-messages:7.0.0" level="project" />
+    <orderEntry type="library" name="Maven: io.cucumber:messages:17.1.1" level="project" />
+    <orderEntry type="library" name="Maven: io.cucumber:tag-expressions:4.0.2" level="project" />
+    <orderEntry type="library" name="Maven: io.cucumber:cucumber-expressions:13.0.1" level="project" />
+    <orderEntry type="library" name="Maven: io.cucumber:datatable:7.0.0" level="project" />
+    <orderEntry type="library" name="Maven: io.cucumber:cucumber-plugin:7.0.0" level="project" />
+    <orderEntry type="library" name="Maven: io.cucumber:docstring:7.0.0" level="project" />
+    <orderEntry type="library" name="Maven: io.cucumber:html-formatter:17.0.0" level="project" />
+    <orderEntry type="library" name="Maven: io.cucumber:create-meta:6.0.1" level="project" />
   </component>
 </module>
